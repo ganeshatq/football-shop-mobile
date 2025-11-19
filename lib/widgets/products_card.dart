@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/productlist_form.dart';
 import 'package:football_shop/screens/menu.dart';
+<<<<<<< HEAD
 import 'package:football_shop/screens/products_entry_list.dart';
 import 'package:football_shop/screens/login.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+=======
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -14,11 +17,15 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final request = context.watch<CookieRequest>();
+=======
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
     return Material(
       color: color,
       borderRadius: BorderRadius.circular(6),
       child: InkWell(
+<<<<<<< HEAD
         onTap: () async {
           if (item.name == "Create Products") {
             Navigator.push(
@@ -74,6 +81,19 @@ class ItemCard extends StatelessWidget {
                   ),
                 ),
               );
+=======
+        onTap: () {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}")),
+            );
+          if (item.name == "Create Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProductFormPage()),
+            );
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
           }
         },
         child: Container(
@@ -96,4 +116,8 @@ class ItemCard extends StatelessWidget {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb

@@ -104,6 +104,7 @@ Agar aplikasi memiliki identitas visual yang kuat, pemilihan warna yang konsiste
 Dua warna utama yang digunakan adalah biru tua sebagai *primary color* dan biru muda sebagai *secondary color*, menyesuaikan dengan identitas visual **TokoOlahraga BeliYuk** di website. Warna biru melambangkan semangat dan profesionalisme, sementara kombinasi biru tua dan muda memberikan kesan sporty dan modern.
 Warna diterapkan secara konsisten di seluruh aplikasi — misalnya pada `AppBar`, tombol *Save*, dan `Drawer`. Untuk menerapkan warna sesuai tema, digunakan `Theme.of(context).colorScheme.primary` atau `.secondary`, memastikan setiap elemen mengikuti tema global. Dengan pendekatan ini, aplikasi **TokoOlahraga BeliYuk** memiliki identitas visual yang seragam, menarik, dan mudah dikenali pengguna.
 
+<<<<<<< HEAD
 ## TUGAS 9 PBP
 
 ## **1. Alasan Membuat Model Dart saat Mengambil/Mengirim JSON**
@@ -219,3 +220,5 @@ Android memblokir akses jaringan tanpa izin eksplisit. Tanpa permission ini, sem
 9. Menambahkan navigasi untuk mengakses semua fitur.
 
 
+=======
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb

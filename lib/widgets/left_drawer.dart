@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/menu.dart';
 import 'package:football_shop/screens/productlist_form.dart';
+<<<<<<< HEAD
 import 'package:football_shop/screens/products_entry_list.dart';
+=======
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -12,12 +15,19 @@ class LeftDrawer extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
+<<<<<<< HEAD
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondary,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
+=======
+            decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
                 Text(
                   'TokoOlahraga BeliYuk',
                   textAlign: TextAlign.start,
@@ -46,9 +56,13 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
+<<<<<<< HEAD
                 MaterialPageRoute(
                   builder: (context) => MyHomePage(),
                 ),
+=======
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
               );
             },
           ),
@@ -58,6 +72,7 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
+<<<<<<< HEAD
                 MaterialPageRoute(
                   builder: (context) => const ProductFormPage(),
                 ),
@@ -74,6 +89,9 @@ class LeftDrawer extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => ProductsEntryListPage(),
                 ),
+=======
+                MaterialPageRoute(builder: (context) => ProductFormPage()),
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
               );
             },
           ),
@@ -81,4 +99,8 @@ class LeftDrawer extends StatelessWidget {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb

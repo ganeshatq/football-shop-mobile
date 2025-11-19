@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/menu.dart';
 import 'package:football_shop/widgets/left_drawer.dart';
+<<<<<<< HEAD
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+=======
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -45,8 +48,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final request = context.watch<CookieRequest>();
 
+=======
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Add Product Form')),
@@ -166,10 +172,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   items: _categories
                       .map(
                         (cat) => DropdownMenuItem(
+<<<<<<< HEAD
                           value: cat,
                           child: Text(cat[0].toUpperCase() + cat.substring(1)),
                         ),
                       )
+=======
+                      value: cat,
+                      child: Text(cat[0].toUpperCase() + cat.substring(1)),
+                    ),
+                  )
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
                       .toList(),
                   onChanged: (String? newValue) {
                     setState(() {
@@ -299,6 +312,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                           Theme.of(context).colorScheme.primary,
                         ),
                       ),
+<<<<<<< HEAD
 
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
@@ -346,6 +360,55 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         }
                       },
                       // =====================================================
+=======
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Produk berhasil disimpan!'),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Nama Produk: $_name'),
+                                      Text('Harga: Rp$_price'),
+                                      Text('Kategori: $_category'),
+                                      Text('Stok: $_stock'),
+                                      Text('Merek: $_brand'),
+                                      if (_thumbnail.isNotEmpty)
+                                        Text('Thumbnail: $_thumbnail'),
+                                      Text(
+                                        'Unggulan: ${_isFeatured ? "Ya" : "Tidak"}',
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text('Deskripsi:\n$_description'),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      _formKey.currentState!.reset();
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MyHomePage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
                       child: const Text(
                         "Save",
                         style: TextStyle(color: Colors.white),
@@ -360,4 +423,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a46a031a41d7bf9128c6db5fb15add22733964eb
