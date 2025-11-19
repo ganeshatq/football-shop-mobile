@@ -8,13 +8,22 @@ class MyHomePage extends StatelessWidget {
   final String npm = "2406425640";
   final String kelas = "F";
 
+  // ==== LIST MENU DI HOMEPAGE ====
   final List<ItemHomepage> items = [
     ItemHomepage("All Products", Icons.shopping_cart),
     ItemHomepage("My Products", Icons.inventory),
     ItemHomepage("Create Products", Icons.add),
+    ItemHomepage("Logout", Icons.logout),          // <--- TAMBAHAN
   ];
 
-  final List<Color> colors = [Colors.blue, Colors.green, Colors.red];
+  // Warna untuk tiap kartu (urutannya sama dengan items di atas)
+  final List<Color> colors = [
+    Colors.blue,
+    Colors.green,
+    Colors.red,
+    Colors.grey,                                   // <--- TAMBAHAN
+  ];
+  // ===============================
 
   @override
   Widget build(BuildContext context) {
@@ -25,46 +34,48 @@ class MyHomePage extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme:  const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: LeftDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Selamat datang di TokoOlahraga BeliYuk',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            const SizedBox(height: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Informasi(
-                  title: 'Data Diri',
-                  nama: nama,
-                  npm: npm,
-                  kelas: kelas,
-                ),
-                const SizedBox(height: 30),
-                GridView.count(
-                  padding: EdgeInsets.zero,
-                  primary: true,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  children: colors.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final color = entry.value;
-                    final item = items[index];
-                    return ItemCard(item: item, color: color);
-                  }).toList(),
-                ),
-              ],
-            ),
-          ],
+      drawer: const LeftDrawer(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Selamat datang di TokoOlahraga BeliYuk',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Informasi(
+                    title: 'Data Diri',
+                    nama: nama,
+                    npm: npm,
+                    kelas: kelas,
+                  ),
+                  const SizedBox(height: 30),
+                  GridView.count(
+                    padding: EdgeInsets.zero,
+                    primary: false,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    children: colors.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final color = entry.value;
+                      final item = items[index];
+                      return ItemCard(item: item, color: color);
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

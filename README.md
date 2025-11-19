@@ -104,3 +104,118 @@ Agar aplikasi memiliki identitas visual yang kuat, pemilihan warna yang konsiste
 Dua warna utama yang digunakan adalah biru tua sebagai *primary color* dan biru muda sebagai *secondary color*, menyesuaikan dengan identitas visual **TokoOlahraga BeliYuk** di website. Warna biru melambangkan semangat dan profesionalisme, sementara kombinasi biru tua dan muda memberikan kesan sporty dan modern.
 Warna diterapkan secara konsisten di seluruh aplikasi — misalnya pada `AppBar`, tombol *Save*, dan `Drawer`. Untuk menerapkan warna sesuai tema, digunakan `Theme.of(context).colorScheme.primary` atau `.secondary`, memastikan setiap elemen mengikuti tema global. Dengan pendekatan ini, aplikasi **TokoOlahraga BeliYuk** memiliki identitas visual yang seragam, menarik, dan mudah dikenali pengguna.
 
+## TUGAS 9 PBP
+
+## **1. Alasan Membuat Model Dart saat Mengambil/Mengirim JSON**
+
+Model Dart dibuat agar data JSON yang bentuknya bebas dapat diubah menjadi objek Dart yang memiliki tipe data jelas. Dengan model, setiap field memiliki tipe tertentu sehingga memastikan validasi tipe berjalan sejak compile-time.
+
+Tanpa model dan hanya memakai `Map<String, dynamic>`:
+
+* Validasi tipe dan null-safety tidak terjamin. Kesalahan baru tampak ketika aplikasi dijalankan.
+* Rentan typo pada key JSON yang hanya berupa string.
+* Sulit dikelola saat proyek makin besar.
+* Perubahan API mengharuskan mencari dan memperbaiki key secara manual di banyak file.
+
+Dengan model, struktur data terdokumentasi dengan baik, mudah dipelihara, dan didukung autocomplete IDE.
+
+---
+
+## **2. Fungsi package `http` dan `CookieRequest`**
+
+**http** digunakan untuk membuat request HTTP biasa (GET, POST, dll). Pustaka ini tidak menyimpan sesi atau cookie apa pun, sehingga setiap permintaan bersifat stateless.
+
+**CookieRequest** dari `pbp_django_auth` adalah pembungkus HTTP yang secara otomatis mengelola cookie session Django. Saat login, CookieRequest menyimpan cookie dari Django dan mengirimkannya lagi pada permintaan berikutnya.
+
+**Intinya:**
+
+* `http`: untuk request biasa, tidak mengelola sesi
+* `CookieRequest`: menangani autentikasi, menjaga cookie Django tetap melekat di setiap request
+
+---
+
+## **3. Alasan CookieRequest Perlu Dibagikan ke Seluruh Komponen**
+
+CookieRequest menyimpan status autentikasi (session cookie, status login). Jika tiap halaman membuat instance baru, informasi sesi akan hilang dan Django menganggap setiap request datang dari pengguna yang belum login.
+
+Dengan membagikan satu instance yang sama menggunakan Provider:
+
+* Status login konsisten
+* Cookie sesi tidak hilang
+* Semua halaman bisa mengakses endpoint yang membutuhkan autentikasi
+
+---
+
+## **4. Konfigurasi Konektivitas Flutter ↔ Django**
+
+Beberapa konfigurasi diperlukan agar aplikasi Flutter dapat terhubung dengan Django, terutama ketika memakai emulator Android:
+
+### **a. Menambah 10.0.2.2 di ALLOWED_HOSTS**
+
+Emulator tidak dapat langsung mengakses `localhost` komputer host. Android menyediakan alamat khusus 10.0.2.2 untuk mengakses host machine. Django harus mengizinkan alamat ini.
+
+### **b. Mengaktifkan CORS**
+
+Django perlu diizinkan menerima permintaan dari domain/port berbeda (misalnya browser atau Flutter Web). Tanpa CORS, request dapat diblokir.
+
+### **c. Pengaturan SameSite dan Cookie**
+
+Agar cookie sesi dikirim saat akses lintas domain, perlu pengaturan seperti `SAMESITE=None`. Tanpa ini, cookie mungkin tidak dikirim sehingga sesi gagal terbentuk.
+
+### **d. Menambahkan Permission Internet di Android**
+
+Android memblokir akses jaringan tanpa izin eksplisit. Tanpa permission ini, semua request akan gagal.
+
+**Jika konfigurasi salah:** aplikasi bisa mengalami error seperti *Connection refused*, *403 Forbidden*, hingga gagal login karena cookie tidak dikirim.
+
+---
+
+## **5. Alur Pengiriman dan Penampilan Data**
+
+1. Pengguna memasukkan data ke form Flutter.
+2. Flutter memvalidasi lalu mengubah data menjadi JSON.
+3. Flutter mengirim POST ke Django melalui CookieRequest.
+4. Django memproses data, membuat objek baru, lalu mengirim respons JSON.
+5. Flutter melakukan GET untuk mengambil daftar data dari Django.
+6. JSON dari Django diubah menjadi model Dart.
+7. Data ditampilkan pada UI Flutter menggunakan widget seperti ListView atau FutureBuilder.
+
+---
+
+## **6. Mekanisme Autentikasi (Register → Login → Logout)**
+
+### **Register**
+
+* Flutter mengirim data pendaftaran ke Django.
+* Django membuat pengguna baru dan mengembalikan respons.
+* Pengguna diarahkan ke halaman login.
+
+### **Login**
+
+* Flutter mengirim username dan password via `request.login()`.
+* Django memverifikasi dan membuat session.
+* Cookie session dikirim ke Flutter dan disimpan oleh CookieRequest.
+* Flutter menandai bahwa pengguna sudah login dan masuk ke menu utama.
+
+### **Logout**
+
+* Flutter memanggil `request.logout()`.
+* Django menghapus sesi.
+* CookieRequest menghapus cookie lokal.
+* Pengguna diarahkan kembali ke halaman login.
+
+---
+
+## **7. Langkah Implementasi Tugas**
+
+1. Mengatur Django untuk menerima request dari Flutter: menambah `django-cors-headers`, mengatur `ALLOWED_HOSTS` dan konfigurasi CORS/cookie.
+2. Membuat endpoint login, register, dan logout yang merespons JSON.
+3. Di Flutter, memasang provider, http, dan pbp_django_auth serta mengaktifkan izin internet Android.
+4. Membagikan instance CookieRequest dengan Provider agar status login konsisten.
+5. Membuat form login dan register yang berkomunikasi dengan endpoint Django.
+6. Membuat model Dart untuk memetakan JSON ke objek Dart.
+7. Membuat halaman daftar produk dan form input produk yang berkomunikasi melalui GET/POST menggunakan CookieRequest.
+8. Menambahkan fitur filtering “My Products” menggunakan username dari sesi login.
+9. Menambahkan navigasi untuk mengakses semua fitur.
+
+

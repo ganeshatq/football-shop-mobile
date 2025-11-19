@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/menu.dart';
 import 'package:football_shop/screens/productlist_form.dart';
+import 'package:football_shop/screens/products_entry_list.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -11,10 +12,12 @@ class LeftDrawer extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'TokoOlahraga BeliYuk',
                   textAlign: TextAlign.start,
@@ -43,7 +46,9 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                MaterialPageRoute(
+                  builder: (context) => MyHomePage(),
+                ),
               );
             },
           ),
@@ -53,7 +58,22 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProductFormPage()),
+                MaterialPageRoute(
+                  builder: (context) => const ProductFormPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.list_alt_outlined),
+            title: const Text('Daftar Produk'),
+            onTap: () {
+              // Navigasi ke halaman daftar products (products_entry_list)
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductsEntryListPage(),
+                ),
               );
             },
           ),

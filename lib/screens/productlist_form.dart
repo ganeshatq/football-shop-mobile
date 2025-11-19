@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/menu.dart';
 import 'package:football_shop/widgets/left_drawer.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -42,6 +45,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Add Product Form')),
@@ -161,10 +166,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   items: _categories
                       .map(
                         (cat) => DropdownMenuItem(
-                      value: cat,
-                      child: Text(cat[0].toUpperCase() + cat.substring(1)),
-                    ),
-                  )
+                          value: cat,
+                          child: Text(cat[0].toUpperCase() + cat.substring(1)),
+                        ),
+                      )
                       .toList(),
                   onChanged: (String? newValue) {
                     setState(() {
@@ -294,53 +299,53 @@ class _ProductFormPageState extends State<ProductFormPage> {
                           Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      onPressed: () {
+
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Produk berhasil disimpan!'),
-                                content: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Nama Produk: $_name'),
-                                      Text('Harga: Rp$_price'),
-                                      Text('Kategori: $_category'),
-                                      Text('Stok: $_stock'),
-                                      Text('Merek: $_brand'),
-                                      if (_thumbnail.isNotEmpty)
-                                        Text('Thumbnail: $_thumbnail'),
-                                      Text(
-                                        'Unggulan: ${_isFeatured ? "Ya" : "Tidak"}',
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text('Deskripsi:\n$_description'),
-                                    ],
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      _formKey.currentState!.reset();
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyHomePage(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
+                          // TODO: ganti URL dengan URL Django punyamu
+                          final response = await request.postJson(
+                            "http://localhost:8000/create-product-flutter/",
+                            jsonEncode({
+                              "name": _name,
+                              "price": _price,
+                              "thumbnail": _thumbnail,
+                              "category": _category,
+                              "is_featured": _isFeatured,
+                              "stock": _stock,
+                              "brand": _brand,
+                              "description": _description,
+                            }),
                           );
+
+                          if (!context.mounted) return;
+
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text("Produk berhasil disimpan ke server!"),
+                              ),
+                            );
+
+                            _formKey.currentState!.reset();
+
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyHomePage(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Terjadi kesalahan, silakan coba lagi."),
+                              ),
+                            );
+                          }
                         }
                       },
+                      // =====================================================
                       child: const Text(
                         "Save",
                         style: TextStyle(color: Colors.white),
